@@ -16,10 +16,11 @@ public class BookBus {
 		user_name = user;
 		System.out.println("Select an option\n" 
 				+ "1. View buses\n" 
-				+ "2. book ticket\n" 
-				+ "3. update booking detail\n"
-				+ "4. Delete booking\n" 
-				+ "5. Logout");
+				+ "2. book ticket\n"
+				+ "3. view ticket\n"
+				+ "4. update booking detail\n"
+				+ "5. Delete booking\n" 
+				+ "6. Logout");
 		int choice = sc.nextInt();
 		switch (choice) {
 		case 1: {
@@ -29,16 +30,42 @@ public class BookBus {
 			bookTicket();
 		}
 		case 3: {
-			updateBooking();
+			viewTicket();
 		}
 		case 4: {
-			deleteBooking();
+			updateBooking();
 		}
 		case 5: {
+			deleteBooking();
+		}
+		case 6: {
 			MainApp.main(null);
 		}
 		default:
 			throw new IllegalArgumentException("Unexpected value: " + choice);
+		}
+	}
+
+	static void viewTicket() {
+		try {
+			String sql = "Select * from ticket where uname=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, user_name);
+			res = pstmt.executeQuery();
+			while (res.next() == true) {
+				System.out.println("Booking Id: " + res.getInt(1));
+				System.out.println("User Name: " + res.getString(2));
+				System.out.println("Bus Start: " + res.getString(3));
+				System.out.println("Bus End: " + res.getString(4));
+				System.out.println("Bus Arival: " + res.getString(5));
+				System.out.println("Bus Departure: " + res.getString(6));
+				System.out.println("Status: " + res.getString(7));
+				System.out.println("-----------------------------------");
+			}
+			System.out.println("**********************");
+			ticket(user_name);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 
