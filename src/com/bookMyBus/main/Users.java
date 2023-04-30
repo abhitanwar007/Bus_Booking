@@ -77,6 +77,7 @@ public class Users {
 				
 			} else {
 				System.out.println("User Login Failed. Refresh the page to re-Login again");
+				MainApp.main(null);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

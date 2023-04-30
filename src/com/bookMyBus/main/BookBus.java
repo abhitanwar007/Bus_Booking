@@ -71,18 +71,18 @@ public class BookBus {
 
 	static void deleteBooking() {
 		try {
-			String sql = "delete from buses where id=?";
+			String sql = "delete from ticket where booking_id=?";
 			pstmt = con.prepareStatement(sql);
-			System.out.println("Enter the bus id");
+			System.out.println("Enter the booking id");
 			pstmt.setInt(1, sc.nextInt());
 
 			int x = pstmt.executeUpdate();
 			if (x > 0) {
-				System.out.println("Bus removed");
+				System.out.println("Ticket cancel");
 				System.out.println("**********************");
 				ticket(user_name);
 			} else {
-				System.out.println("Bus deletion Failed");
+				System.out.println("Ticket deletion Failed");
 				System.out.println("**********************");
 				ticket(user_name);
 			}
@@ -93,23 +93,21 @@ public class BookBus {
 
 	static void updateBooking() {
 		try {
-			String sql = "update buses set arival_time=? , departure_time=? where user_name=? and id=?";
+			String sql = "update ticket set status=? where uname=? and booking_id=?";
 			pstmt = con.prepareStatement(sql);
-			System.out.println("Enter the bus id");
-			pstmt.setInt(4, sc.nextInt());
-			pstmt.setString(3, user_name);
-			System.out.println("Enter the Arival time");
+			System.out.println("Enter the booking id");
+			pstmt.setInt(3, sc.nextInt());
+			pstmt.setString(2, user_name);
+			System.out.println("Enter the status :");
 			pstmt.setString(1, sc.next());
-			System.out.println("Enter the Dreparture time");
-			pstmt.setString(2, sc.next());
-
+			
 			int x = pstmt.executeUpdate();
 			if (x > 0) {
-				System.out.println("Bus details Updated");
+				System.out.println("Ticket details Updated");
 				System.out.println("**********************");
 				ticket(user_name);
 			} else {
-				System.out.println("Bus Updation Failed");
+				System.out.println("Ticket Updation Failed");
 				System.out.println("**********************");
 				ticket(user_name);
 			}
