@@ -94,8 +94,17 @@ public class BookBus {
 
 	static void bookTicket() {
 		try {
-			String sql = "Select * from buses";
-			pstmt = con.prepareStatement(sql);
+			String route_start="";
+			String route_end="";
+			String arivalTime="";
+			String departureTime="";
+			
+			System.out.println("Enter bus id to book the ticket: ");
+			int bus_id=sc.nextInt();
+			
+			String sql1 = "Select * from buses where id=?";
+			pstmt = con.prepareStatement(sql1);
+			pstmt.setInt(1, bus_id);
 			res = pstmt.executeQuery();
 			while (res.next() == true) {
 				System.out.println("Bus Id: " + res.getInt(1));
@@ -105,6 +114,29 @@ public class BookBus {
 				System.out.println("Bus Arival: " + res.getString(5));
 				System.out.println("Bus Departure: " + res.getString(6));
 				System.out.println("-----------------------------------");
+				route_start=res.getString(3);
+				route_end =res.getString(4);
+				arivalTime=res.getString(5);
+				departureTime =res.getString(6);
+			}
+			
+			String sql2 = "insert into ticket (uname,start_location,end_location,arival_time,destination_time) values(?,?,?,?,?)";
+			pstmt = con.prepareStatement(sql2);
+			pstmt.setString(1, user_name);
+			pstmt.setString(2, route_start);
+			pstmt.setString(3, route_end);
+			pstmt.setString(4, arivalTime);
+			pstmt.setString(5, departureTime);
+			int x= pstmt.executeUpdate();
+			if(x>0)
+			{
+				System.out.println("Ticket booked Successfully.\n");
+				System.out.println("**********************");
+				ticket(user_name);
+			} else {
+				System.out.println("Ticket booking Failed.");
+				System.out.println("**********************");
+				ticket(user_name);
 			}
 			System.out.println("**********************");
 			ticket(user_name);
